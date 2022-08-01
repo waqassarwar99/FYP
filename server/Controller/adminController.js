@@ -1,8 +1,9 @@
 const User = require("../Models/userModel");
+const Seller = require('../Models/Seller');
+const TempSeller = require('../Models/TempSeller');
 
 exports.getUsersAllinfo = async (req, res) => {
   try {
-    console.log(req.user.id);
     const user = await User.find().select("-password");
 
     res.json(user);
@@ -59,7 +60,6 @@ exports.addResponse = async (req, res) => {
 exports.viewResponse = async (req, res) => {
   try {
     const { userId, complaintId } = req.body;
-    console.log(userId, complaintId);
     const response = await Response.findOne({
       $and: [{ userId: userId }, { complaintId: complaintId }],
     });
@@ -68,3 +68,36 @@ exports.viewResponse = async (req, res) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+
+//Accept and Reject Seller
+exports.viewRequests = async(req, res) => {
+  try {
+    const requests = await TempSeller.find();
+    res.json(requests);
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+}
+
+exports.acceptSeller = async(req, res) => {
+  try {
+    const { name, email, password, cnic, contactNo, serviceType } = req.body;
+    const seller = new Seller({
+      name, email, password, cnic, contactNo, serviceType
+    });
+    await seller.save();
+    res.json("Your request has been accept");
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+}
+
+exports.rejectSeller = async(req, res) => {
+  try {
+    const id = req.params.id;
+    await TempSeller.findByIdAndDelete(id);
+    res.json("Your request is Rejected");
+  } catch (error) {
+    return res.status(500).json({ msg: error.message });
+  }
+}
