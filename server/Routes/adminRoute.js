@@ -17,8 +17,8 @@ router.post('/addResponse', adminMiddleware, adminController.addResponse);
 router.post('/viewResponse', adminMiddleware, adminController.viewResponse);
 
 //Accept and Reject Requests of Seller
-router.get('/viewRequests', adminMiddleware, adminController.viewRequests);
-router.post('/acceptSeller', adminMiddleware, adminController.acceptSeller);
-router.delete('/rejectSeller', adminMiddleware, adminController.rejectSeller);
+router.get('/viewRequests', adminController.viewRequests);
+router.post('/acceptSeller', adminController.acceptSeller);
+router.delete('/rejectSeller/:id', adminController.rejectSeller);
 
 module.exports = router;
