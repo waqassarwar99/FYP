@@ -14,15 +14,14 @@ const sellerSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "Please Enter your Password."],
-    minlength: [8, "Password should be greater than 8 characters."]
+    required: true
   },
   cnic: {
     type: String,
     required: true,
     unique: true
   },
-  contactNo: {
+  phone: {
     type: String,
     required: true,
     unique: true

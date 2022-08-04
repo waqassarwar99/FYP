@@ -81,11 +81,13 @@ exports.viewRequests = async(req, res) => {
 
 exports.acceptSeller = async(req, res) => {
   try {
-    const { name, email, password, cnic, contactNo, serviceType } = req.body;
+    const { id, name, email, password, cnic, phone, serviceType } = req.body;
+    console.log(id)
     const seller = new Seller({
-      name, email, password, cnic, contactNo, serviceType
+      name, email, password, cnic, phone, serviceType
     });
     await seller.save();
+    await TempSeller.findByIdAndDelete(id);
     res.json("Your request has been accept");
   } catch (error) {
     return res.status(500).json({ msg: error.message });
